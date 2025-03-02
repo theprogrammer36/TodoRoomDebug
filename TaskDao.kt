@@ -13,9 +13,18 @@ interface TaskDao {
     suspend fun insertTask(task: Task)
 
     @Delete
-    suspend fun delete(task: Int)
+    suspend fun delete(task: Task)
 
     @Query("SELECT * FROM tasks ORDER BY id ASC")
     fun getAllTasks(): Flow<List<Task>>
+
+    @Query("SELECT * FROM tasks WHERE id = :taskId")
+    suspend fun getTaskById(taskId: Int): Task?
+
+    @Query("DELETE FROM tasks")
+    suspend fun deleteAllTasks()
+
+    @Query("SELECT COUNT(*) FROM tasks")
+    fun getTaskCount(): Flow<Int>
 
 }
